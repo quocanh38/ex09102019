@@ -69,18 +69,17 @@
 
             toDoItems.push(toDoItemInput.value)
 
-            for (let i = toDoItems.length - 1; i < toDoItems.length; i++) {
-                const toDoItemEle = createToDoItemEle(toDoItems[i])
-                toDoItemsContainer.appendChild(toDoItemEle)
+            let i = toDoItems.length - 1
+            const toDoItemEle = createToDoItemEle(toDoItems[i])
+            toDoItemsContainer.appendChild(toDoItemEle)
 
-                const toggleToDoItem = document.getElementsByClassName('todoitem')[i]
-                toggleToDoItem.addEventListener('click', function () {
-                    if (toggleToDoItem.classList.contains("done"))
-                        toggleToDoItem.classList.remove('done')
-                    else
-                        toggleToDoItem.classList.add('done')
-                })
-            }
+            const toggleToDoItem = document.getElementsByClassName('todoitem')[i]
+            toggleToDoItem.addEventListener('click', function () {
+                if (toggleToDoItem.classList.contains("done"))
+                    toggleToDoItem.classList.remove('done')
+                else
+                    toggleToDoItem.classList.add('done')
+            })
 
             toDoItemInput.value = ""
         })
