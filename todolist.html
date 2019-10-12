@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>To Do List</title>
+    <style>
+        body button {
+            width: 100px;
+            height: 40px;
+            font-size: 15px;
+            margin: 10px 10px;
+        }
+
+        body input {
+            width: 200px;
+            height: 35px;
+            font-size: 15px;
+        }
+
+        .todoitem {
+            color: blue;
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .done {
+            color: orange;
+        }
+
+        .active {
+            background-color: red;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>To Do List</h2>
+    <div>
+        <input class="todoitem-input" type="text">
+        <button class="add-todoitem-button">Add</button>
+    </div>
+    <ul class="todoitems"></ul>
+    <div>
+        <button class="show-all filter-button active">All</button>
+        <button class="show-done filter-button">Done</button>
+        <button class="show-not-done filter-button">Not Done</button>
+    </div>
+
+    <script>
+        const toDoItemInput = document.querySelector('.todoitem-input')
+        const addToDoItemBtn = document.querySelector('.add-todoitem-button')
+        const toDoItemsContainer = document.querySelector('.todoitems')
+        const allToDoItemBtn = document.querySelector('.show-all')
+        const doneToDoItemBtn = document.querySelector('.show-done')
+        const notDoneToDoItemBtn = document.querySelector('.show-not-done')
+
+        const toDoItems = []
+
+        addToDoItemBtn.addEventListener('click', function () {
+            if (toDoItemInput.value === "") return
+
+            toDoItems.push(toDoItemInput.value)
+
+            for (let i = toDoItems.length - 1; i < toDoItems.length; i++) {
+                const toDoItemEle = createToDoItemEle(toDoItems[i])
+                toDoItemsContainer.appendChild(toDoItemEle)
+
+                const toggleToDoItem = document.getElementsByClassName('todoitem')[i]
+                toggleToDoItem.addEventListener('click', function () {
+                    if (toggleToDoItem.classList.contains("done"))
+                        toggleToDoItem.classList.remove('done')
+                    else
+                        toggleToDoItem.classList.add('done')
+                })
+            }
+
+            toDoItemInput.value = ""
+        })
+
+        doneToDoItemBtn.addEventListener('click', function () {
+            const toDoItemsEle = document.querySelectorAll('.todoitem')
+            for (let i = 0; i < toDoItemsEle.length; i++) {
+                const toDoItem = document.getElementsByClassName('todoitem')[i]
+                if (toDoItem.classList.contains('done'))
+                    toDoItem.classList.remove('hidden')
+                else
+                    toDoItem.classList.add('hidden')
+            }
+
+            doneToDoItemBtn.classList.add('active')
+            notDoneToDoItemBtn.classList.remove('active')
+            allToDoItemBtn.classList.remove('active')
+        })
+
+        notDoneToDoItemBtn.addEventListener('click', function () {
+            const toDoItemsEle = document.querySelectorAll('.todoitem')
+            for (let i = 0; i < toDoItemsEle.length; i++) {
+                const toDoItem = document.getElementsByClassName('todoitem')[i]
+                if (!(toDoItem.classList.contains('done')))
+                    toDoItem.classList.remove('hidden')
+                else
+                    toDoItem.classList.add('hidden')
+            }
+
+            notDoneToDoItemBtn.classList.add('active')
+            doneToDoItemBtn.classList.remove('active')
+            allToDoItemBtn.classList.remove('active')
+        })
+
+        allToDoItemBtn.addEventListener('click', function () {
+            const toDoItemsEle = document.querySelectorAll('.todoitem')
+            for (let i = 0; i < toDoItemsEle.length; i++) {
+                const toDoItem = document.getElementsByClassName('todoitem')[i]
+                toDoItem.classList.remove('hidden')
+            }
+
+            allToDoItemBtn.classList.add('active')
+            doneToDoItemBtn.classList.remove('active')
+            notDoneToDoItemBtn.classList.remove('active')
+        })
+
+        function createToDoItemEle(toDoItemIndex) {
+            const toDoItemEle = document.createElement('li')
+            toDoItemEle.classList.add('todoitem')
+            toDoItemEle.innerHTML = toDoItemIndex
+            return toDoItemEle
+        }
+    </script>
+</body>
+
+</html>
